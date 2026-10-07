@@ -4,10 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f2f2f2;
+        }
+
+        .calculator {
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .display {
+            width: 100%;
+            box-sizing: border-box;
+            height: 60px;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 24px;
+            text-align: right;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>My Calculator</h1>
+    <div class="calculator">
+        <input type="text" class="display" value="0" readonly>
+
+        <div class="buttons">
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>/</button>
+
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>*</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>-</button>
+
+            <button>0</button>
+            <button>.</button>
+            <button>=</button>
+            <button>+</button>
+        </div>
+    </div>
 
 </body>
 </html>
