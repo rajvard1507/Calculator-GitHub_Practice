@@ -1,4 +1,5 @@
 import tkinter as tk
+from operations import add, subtract, multiply, divide
 
 
 def button_click(value):
@@ -6,9 +7,28 @@ def button_click(value):
 
     if value == "=":
         try:
-            result = eval(current)
+            if "+" in current:
+                a, b = current.split("+")
+                result = add(float(a), float(b))
+
+            elif "-" in current:
+                a, b = current.split("-")
+                result = subtract(float(a), float(b))
+
+            elif "*" in current:
+                a, b = current.split("*")
+                result = multiply(float(a), float(b))
+
+            elif "/" in current:
+                a, b = current.split("/")
+                result = divide(float(a), float(b))
+
+            else:
+                result = float(current)
+
             display.delete(0, tk.END)
             display.insert(0, str(result))
+
         except:
             display.delete(0, tk.END)
             display.insert(0, "Error")
