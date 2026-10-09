@@ -1,290 +1,251 @@
-import tkinter as tk
-from operations import add, subtract, multiply, divide
-from history import add_to_history, get_history, clear_history
+import math
+
+import operations
+import history
 
 
-# -----------------------------
-# Calculator Logic
-# -----------------------------
+# Display the calculator menu
 
-def button_click(value):
-    current = display.get()
+def display_menu():
+    print("\n" + "=" * 45)
+    print("          ADVANCED SCIENTIFIC CALCULATOR")
+    print("=" * 45)
 
-    if value == "=":
+    print("\nBASIC OPERATIONS")
+    print("1. Addition")
+    print("2. Subtraction")
+    print("3. Multiplication")
+    print("4. Division")
+
+    print("\nPOWERS AND ROOTS")
+    print("5. Square")
+    print("6. Cube")
+    print("7. Square Root")
+    print("8. Cube Root")
+    print("9. Power (x^y)")
+    print("10. Reciprocal (1/x)")
+
+    print("\nSCIENTIFIC OPERATIONS")
+    print("11. Exponential (e^x)")
+    print("12. Natural Logarithm (ln)")
+    print("13. Logarithm Base 10")
+    print("14. Sine (sin)")
+    print("15. Cosine (cos)")
+    print("16. Tangent (tan)")
+    print("17. Factorial")
+    print("18. Percentage")
+
+    print("\nHISTORY")
+    print("19. View History")
+    print("20. Clear History")
+    print("21. Delete History Entry")
+
+    print("\n0. Exit")
+    print("=" * 45)
+
+
+# Read a valid number
+
+def get_number(prompt):
+    while True:
         try:
-            if "+" in current:
-                a, b = current.split("+")
-                result = add(float(a), float(b))
+            number = float(input(prompt))
 
-            elif "-" in current:
-                a, b = current.split("-")
-                result = subtract(float(a), float(b))
+            if not math.isfinite(number):
+                print("Please enter a finite number.")
+                continue
 
-            elif "*" in current:
-                a, b = current.split("*")
-                result = multiply(float(a), float(b))
+            return number
 
-            elif "/" in current:
-                a, b = current.split("/")
-                result = divide(float(a), float(b))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+# Format results for display
+
+def format_result(result):
+    if isinstance(result, float):
+        if not math.isfinite(result):
+            raise ValueError("The result is outside the supported numeric range.")
+
+        if result == 0:
+            return "0"
+
+        if result.is_integer():
+            return str(int(result))
+
+        return f"{result:.12g}"
+
+    return str(result)
+
+
+# Perform a calculation and save it
+
+def calculate(operation, expression, *numbers):
+    result = operation(*numbers)
+    formatted_result = format_result(result)
+
+    print(f"\nResult: {formatted_result}")
+
+    history.add_history(expression, formatted_result)
+
+
+# Main application
+
+def main():
+    print("\nWelcome to the Advanced Scientific Calculator!")
+
+    while True:
+        display_menu()
+
+        choice = input("\nEnter your choice: ").strip()
+
+        try:
+
+            # Basic arithmetic
+
+            if choice == "1":
+                a = get_number("Enter first number: ")
+                b = get_number("Enter second number: ")
+                calculate(operations.add, f"{a} + {b}", a, b)
+
+            elif choice == "2":
+                a = get_number("Enter first number: ")
+                b = get_number("Enter second number: ")
+                calculate(operations.subtract, f"{a} - {b}", a, b)
+
+            elif choice == "3":
+                a = get_number("Enter first number: ")
+                b = get_number("Enter second number: ")
+                calculate(operations.multiply, f"{a} * {b}", a, b)
+
+            elif choice == "4":
+                a = get_number("Enter numerator: ")
+                b = get_number("Enter denominator: ")
+                calculate(operations.divide, f"{a} / {b}", a, b)
+
+            # Powers and roots
+
+            elif choice == "5":
+                a = get_number("Enter number: ")
+                calculate(operations.square, f"{a}²", a)
+
+            elif choice == "6":
+                a = get_number("Enter number: ")
+                calculate(operations.cube, f"{a}³", a)
+
+            elif choice == "7":
+                a = get_number("Enter number: ")
+                calculate(operations.square_root, f"√({a})", a)
+
+            elif choice == "8":
+                a = get_number("Enter number: ")
+                calculate(operations.cube_root, f"∛({a})", a)
+
+            elif choice == "9":
+                a = get_number("Enter base: ")
+                b = get_number("Enter exponent: ")
+                calculate(operations.power, f"{a} ^ {b}", a, b)
+
+            elif choice == "10":
+                a = get_number("Enter number: ")
+                calculate(operations.reciprocal, f"1 / {a}", a)
+
+            # Scientific operations
+
+            elif choice == "11":
+                a = get_number("Enter exponent: ")
+                calculate(operations.exponential, f"e ^ {a}", a)
+
+            elif choice == "12":
+                a = get_number("Enter number: ")
+                calculate(operations.natural_log, f"ln({a})", a)
+
+            elif choice == "13":
+                a = get_number("Enter number: ")
+                calculate(operations.log_base_10, f"log10({a})", a)
+
+            elif choice == "14":
+                a = get_number("Enter angle in degrees: ")
+                calculate(operations.sine, f"sin({a}°)", a)
+
+            elif choice == "15":
+                a = get_number("Enter angle in degrees: ")
+                calculate(operations.cosine, f"cos({a}°)", a)
+
+            elif choice == "16":
+                a = get_number("Enter angle in degrees: ")
+                calculate(operations.tangent, f"tan({a}°)", a)
+
+            elif choice == "17":
+                a = get_number("Enter a non-negative integer: ")
+
+                if not a.is_integer():
+                    raise ValueError(
+                        "Factorial requires a non-negative integer."
+                    )
+
+                calculate(operations.factorial, f"{int(a)}!", a)
+
+            elif choice == "18":
+                a = get_number("Enter the original number: ")
+                b = get_number("Enter percentage: ")
+                calculate(
+                    operations.percentage,
+                    f"{b}% of {a}",
+                    a,
+                    b
+                )
+
+            # History management
+
+            elif choice == "19":
+                history.show_history()
+
+            elif choice == "20":
+                confirmation = input(
+                    "Clear all calculation history? (y/n): "
+                ).strip().lower()
+
+                if confirmation == "y":
+                    history.clear_history()
+                else:
+                    print("History was not cleared.")
+
+            elif choice == "21":
+                history.show_history()
+
+                entries = history.load_history()
+
+                if entries:
+                    try:
+                        index = int(
+                            input("Enter the history entry number to delete: ")
+                        )
+
+                        deleted = history.delete_history_entry(index)
+
+                        print(
+                            f"Deleted: {deleted['expression']} "
+                            f"= {deleted['result']}"
+                        )
+
+                    except ValueError:
+                        print("Please enter a valid integer.")
+
+            elif choice == "0":
+                print("\nThank you for using the calculator!")
+                break
 
             else:
-                result = float(current)
+                print("\nInvalid choice. Please select a valid option.")
 
-            if result == int(result):
-                result = int(result)
+        except (ValueError, ZeroDivisionError, OverflowError) as error:
+            print(f"\nCalculation error: {error}")
 
-            display.delete(0, tk.END)
-            display.insert(0, str(result))
-
-            # Add calculation to history
-            add_to_history(current, result)
-            update_history()
-
-        except:
-            display.delete(0, tk.END)
-            display.insert(0, "Error")
-
-    elif value == "C":
-        display.delete(0, tk.END)
-
-    else:
-        display.insert(tk.END, value)
+        except OSError as error:
+            print(f"\nFile operation error: {error}")
 
 
-# -----------------------------
-# History
-# -----------------------------
-
-def update_history():
-    history_list.delete(0, tk.END)
-
-    for calculation in get_history():
-        history_list.insert(tk.END, calculation)
-
-
-def clear_history_display():
-    clear_history()
-    history_list.delete(0, tk.END)
-
-
-# -----------------------------
-# Main Window
-# -----------------------------
-
-window = tk.Tk()
-window.title("Calculator")
-window.geometry("720x560")
-window.resizable(False, False)
-window.configure(bg="#121212")
-
-
-# -----------------------------
-# Main Container
-# -----------------------------
-
-main_frame = tk.Frame(
-    window,
-    bg="#121212"
-)
-
-main_frame.pack(
-    fill="both",
-    expand=True,
-    padx=20,
-    pady=20
-)
-
-
-# =========================================================
-# CALCULATOR
-# =========================================================
-
-calculator = tk.Frame(
-    main_frame,
-    bg="#1c1c1c",
-    padx=18,
-    pady=18
-)
-
-calculator.pack(
-    side="left",
-    fill="both",
-    expand=True
-)
-
-
-# -----------------------------
-# Display
-# -----------------------------
-
-display = tk.Entry(
-    calculator,
-    font=("Segoe UI", 32),
-    justify="right",
-    bg="#1c1c1c",
-    fg="#f5f5f5",
-    insertbackground="#f5f5f5",
-    borderwidth=0
-)
-
-display.pack(
-    fill="x",
-    ipady=18,
-    pady=(10, 25)
-)
-
-
-# -----------------------------
-# Calculator Buttons
-# -----------------------------
-
-buttons = [
-    ["C", "(", ")", "/"],
-    ["7", "8", "9", "*"],
-    ["4", "5", "6", "-"],
-    ["1", "2", "3", "+"],
-    ["0", ".", "="]
-]
-
-
-for row in buttons:
-
-    row_frame = tk.Frame(
-        calculator,
-        bg="#1c1c1c"
-    )
-
-    row_frame.pack(
-        fill="both",
-        expand=True
-    )
-
-    for value in row:
-
-        if value == "=":
-            bg_color = "#f5f5f5"
-            fg_color = "#121212"
-            active_bg = "#dcdcdc"
-
-        elif value in ["C", "/", "*", "-", "+"]:
-            bg_color = "#2a2a2a"
-            fg_color = "#ffffff"
-            active_bg = "#3a3a3a"
-
-        else:
-            bg_color = "#242424"
-            fg_color = "#f5f5f5"
-            active_bg = "#333333"
-
-        button = tk.Button(
-            row_frame,
-            text=value,
-            font=("Segoe UI", 17),
-            bg=bg_color,
-            fg=fg_color,
-            activebackground=active_bg,
-            activeforeground=fg_color,
-            borderwidth=0,
-            relief="flat",
-            command=lambda v=value: button_click(v)
-        )
-
-        button.pack(
-            side="left",
-            fill="both",
-            expand=True,
-            padx=5,
-            pady=5
-        )
-
-
-# =========================================================
-# HISTORY PANEL
-# =========================================================
-
-history_frame = tk.Frame(
-    main_frame,
-    bg="#1c1c1c",
-    width=220,
-    padx=15,
-    pady=18
-)
-
-history_frame.pack(
-    side="right",
-    fill="y",
-    padx=(15, 0)
-)
-
-history_frame.pack_propagate(False)
-
-
-# -----------------------------
-# History Title
-# -----------------------------
-
-history_title = tk.Label(
-    history_frame,
-    text="HISTORY",
-    font=("Segoe UI", 12, "bold"),
-    bg="#1c1c1c",
-    fg="#f5f5f5"
-)
-
-history_title.pack(
-    anchor="w",
-    pady=(5, 15)
-)
-
-
-# -----------------------------
-# History List
-# -----------------------------
-
-history_list = tk.Listbox(
-    history_frame,
-    font=("Segoe UI", 11),
-    bg="#242424",
-    fg="#dddddd",
-    selectbackground="#3a3a3a",
-    selectforeground="#ffffff",
-    borderwidth=0,
-    highlightthickness=0
-)
-
-history_list.pack(
-    fill="both",
-    expand=True
-)
-
-
-# -----------------------------
-# Clear History Button
-# -----------------------------
-
-clear_button = tk.Button(
-    history_frame,
-    text="Clear History",
-    font=("Segoe UI", 10),
-    bg="#2a2a2a",
-    fg="#ffffff",
-    activebackground="#3a3a3a",
-    activeforeground="#ffffff",
-    borderwidth=0,
-    relief="flat",
-    command=clear_history_display
-)
-
-clear_button.pack(
-    fill="x",
-    pady=(15, 5),
-    ipady=6
-)
-
-
-# -----------------------------
-# Start Application
-# -----------------------------
-
-window.mainloop()
+if __name__ == "__main__":
+    main()
