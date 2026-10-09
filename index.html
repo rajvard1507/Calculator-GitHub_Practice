@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaCalc | Scientific Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app-container">
+
+        <header class="app-header">
+            <div>
+                <h1>NovaCalc<span>.</span></h1>
+                <p>Advanced Scientific Calculator</p>
+            </div>
+
+            <button id="theme-toggle" class="theme-button">
+                ☀ / ☾
+            </button>
+        </header>
+
+        <section class="calculator-layout">
+
+            <div class="calculator-card">
+
+                <div class="display-container">
+                    <div id="expression" class="expression"></div>
+                    <input
+                        type="text"
+                        id="display"
+                        value="0"
+                        readonly
+                        aria-label="Calculator display"
+                    >
+                </div>
+
+                <div class="button-grid">
+
+                    <button class="utility" data-action="clear">AC</button>
+                    <button class="utility" data-action="delete">DEL</button>
+                    <button data-value="(">(</button>
+                    <button data-value=")">)</button>
+                    <button class="operator" data-value="/">÷</button>
+
+                    <button class="scientific" data-action="square">x²</button>
+                    <button class="scientific" data-action="cube">x³</button>
+                    <button class="scientific" data-action="sqrt">√x</button>
+                    <button class="scientific" data-action="cbrt">∛x</button>
+                    <button class="operator" data-value="*">×</button>
+
+                    <button data-value="7">7</button>
+                    <button data-value="8">8</button>
+                    <button data-value="9">9</button>
+                    <button class="scientific" data-action="ln">ln</button>
+                    <button class="operator" data-value="-">−</button>
+
+                    <button data-value="4">4</button>
+                    <button data-value="5">5</button>
+                    <button data-value="6">6</button>
+                    <button class="scientific" data-action="log">log</button>
+                    <button class="operator" data-value="+">+</button>
+
+                    <button data-value="1">1</button>
+                    <button data-value="2">2</button>
+                    <button data-value="3">3</button>
+                    <button class="scientific" data-action="exp">eˣ</button>
+                    <button class="scientific" data-action="power">xʸ</button>
+
+                    <button data-action="sign">+/−</button>
+                    <button data-value="0">0</button>
+                    <button data-value=".">.</button>
+                    <button class="scientific" data-action="factorial">x!</button>
+                    <button class="equals" data-action="calculate">=</button>
+
+                    <button class="scientific" data-action="sin">sin</button>
+                    <button class="scientific" data-action="cos">cos</button>
+                    <button class="scientific" data-action="tan">tan</button>
+                    <button class="scientific" data-action="reciprocal">1/x</button>
+                    <button class="scientific" data-action="percentage">%</button>
+
+                </div>
+
+                <p class="calculator-footer">
+                    DEG MODE · SCIENTIFIC ENGINE
+                </p>
+
+            </div>
+
+            <aside class="history-card">
+
+                <div class="history-header">
+                    <div>
+                        <h2>History</h2>
+                        <p>Your recent calculations</p>
+                    </div>
+
+                    <button id="clear-history">Clear</button>
+                </div>
+
+                <div id="history-list">
+                    <p class="empty-history">No calculations yet.</p>
+                </div>
+
+            </aside>
+
+        </section>
+
+        <footer>
+            <p>NovaCalc · Built with HTML, CSS & JavaScript</p>
+        </footer>
+
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
