@@ -98,3 +98,8 @@ export function reciprocal(number) {
 
     return 1 / number;
 }
+
+// Percentage
+export function percentage(number, percent) {
+    return (number * percent) / 100;
+}
